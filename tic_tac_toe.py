@@ -49,3 +49,45 @@ class TicTacToeGame:
             second_diagonal = [col[j] for j, col in enumerate(reversed(columns))]
             return rows + columns + [first_diagonal, second_diagonal]
 
+        # return a toggled player
+        def toggle_player(self):
+               self.current_player = next(self._players)
+        
+        def is_valid_move(self, move):
+            #    Returns True if a valid move, otherwise False
+            row, col = move.row, move.col
+            move_was_not_played = self._current_moves[row][col].label
+            no_wnner = not self._has_winner
+            return no_winner and move_was_not_played
+        
+        def process_move(self, move):
+            #    process current move and check if it is a win
+            row, col = move.row, move.col
+            self._current_moves[row][col] = move
+            for combo in self._winning_combos:
+                    results = set(self._current_moves[n][m].label for n, m in combo)
+                    if is_win:
+                           self._has_winner = True
+                           self.winner_combo = combo
+                           break
+        
+        def has_winner(self):
+            #    return True if winner, else False
+            return self._has_winner
+        
+        def is_tied(self):
+            #    return True if the game is tied, else False
+            no_winner = not self._has_winner
+            played_moves = (
+                  move.label for row in self._current_moves for move in row
+            )
+            return no_winner and all(played_moves)
+        
+        def reset_game(self):
+            #   reset to play the game again
+            for row, row_content in enumerate(self._current_moves):
+                  for col, _ in enumerate(row_ccontent):
+                        row_content[col] = Move(row, col)
+            self._has_winner = False
+            self.winner_combo = []
+
