@@ -100,6 +100,8 @@ class TicTacToeBoard(tk.Tk):
         self._create_menu()
         self._create_board_display()
         self._create_board_grid()
+        self.bind("<KeyRelease>", self._on_key_release)
+        self._center_window()
 
     def _create_menu(self):
         menu_bar = tk.Menu(master=self)
@@ -181,6 +183,22 @@ class TicTacToeBoard(tk.Tk):
             button.config(highlightbackground="lightblue")
             button.config(text="")
             button.config(fg="black")
+
+    def _on_key_release(self, event):
+        """Reset the game when the spacebar is pressed after a game is over."""
+        if event.keysym == "space" and (self._game.has_winner() or self._game.is_tied()):
+            self.reset_board()
+
+    def _center_window(self):
+        """Center the window on the screen."""
+        self.update_idletasks()
+        window_width = self.winfo_width()
+        window_height = self.winfo_height()
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+        self.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 def main():
     """Create the game's board and run its main loop."""
