@@ -1,4 +1,4 @@
-"""A tic-tac-toe game built with Python and Tkinter."""
+"""A tic-tac-toe game built with Python and Tkinter. To be part of a bigger project"""
 
 import tkinter as tk
 from itertools import cycle
@@ -125,7 +125,7 @@ class TicTacToeBoard(tk.Tk):
         self.display.pack()
         self.score_display = tk.Label(
             master=display_frame,
-            text="X: 0   O: 0",
+            text="X's: 0   O's: 0",
             font=font.Font(size=20),
         )
         self.score_display.pack()
@@ -159,10 +159,10 @@ class TicTacToeBoard(tk.Tk):
             self._update_button(clicked_btn)
             self._game.process_move(move)
             if self._game.is_tied():
-                self._update_display(msg="Tied game!", color="red")
+                self._update_display(msg="Tied game! Press space to continue.", color="red")
             elif self._game.has_winner():
                 self._highlight_cells()
-                msg = f'Player "{self._game.current_player.label}" won!'
+                msg = f'Player "{self._game.current_player.label}" won! Press space to continue.'
                 color = self._game.current_player.color
                 self._update_display(msg, color)
                 self._update_score_display()  # Update the score display
