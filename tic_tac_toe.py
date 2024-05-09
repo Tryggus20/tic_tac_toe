@@ -29,6 +29,7 @@ class TicTacToeGame:
         self._current_moves = []
         self._has_winner = False
         self._winning_combos = []
+        self.scores = {player.label: 0 for player in players}  # Initialize scores
         self._setup_board()
 
     def _setup_board(self):
@@ -69,6 +70,7 @@ class TicTacToeGame:
             if is_win:
                 self._has_winner = True
                 self.winner_combo = combo
+                self.scores[self.current_player.label] += 1  # Update score
                 break
 
     def has_winner(self):
@@ -121,6 +123,12 @@ class TicTacToeBoard(tk.Tk):
             font=font.Font(size=28, weight="bold"),
         )
         self.display.pack()
+        self.score_display = tk.Label(
+            master=display_frame,
+            text="X: 0   O: 0",
+            font=font.Font(size=20),
+        )
+        self.score_display.pack()
 
     def _create_board_grid(self):
         grid_frame = tk.Frame(master=self)
@@ -157,6 +165,7 @@ class TicTacToeBoard(tk.Tk):
                 msg = f'Player "{self._game.current_player.label}" won!'
                 color = self._game.current_player.color
                 self._update_display(msg, color)
+                self._update_score_display()  # Update the score display
             else:
                 self._game.toggle_player()
                 msg = f"{self._game.current_player.label}'s turn"
@@ -169,6 +178,11 @@ class TicTacToeBoard(tk.Tk):
     def _update_display(self, msg, color="black"):
         self.display["text"] = msg
         self.display["fg"] = color
+
+    def _update_score_display(self):
+        """Update the score display."""
+        scores = self._game.scores
+        self.score_display.config(text=f"X: {scores['X']}   O: {scores['O']}")
 
     def _highlight_cells(self):
         for button, coordinates in self._cells.items():
