@@ -1,7 +1,6 @@
 # tic-tac-toe game using Tkinter. Future use will include AI 
 # tkinter must be at least Version 8.6
-import tkinter 
-tkinter.TkVersion
+import tkinter as tk
 from itertools import cycle
 from tkinter import font
 from typing import NamedTuple
@@ -91,3 +90,22 @@ class TicTacToeGame:
             self._has_winner = False
             self.winner_combo = []
 
+class TicTacToeBoard(tk.Tk):
+        def __init__(self, game):
+            super().__init__()
+            self.title("Tic-Tac-Toe Game")
+            self._cells = {}
+            self._game = game
+            self._create_board_display()
+            self._create_board_grid()
+
+        def _create_menu(self):
+            menu_bar = tk.Menu(master=self)
+            self.config(menu=menu_bar)
+            file_menu = tk.Menu(master=menu_bar)
+            file_menu.add_command(label="Play Again?", command=self.reset_board)
+            file_menu.add_separator()
+            file_menu.add_command(label="Quit", command =quit)
+            menu_bar.add_cascade(label="File", menu=file_menu)
+
+        
